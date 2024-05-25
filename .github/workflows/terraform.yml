@@ -30,8 +30,8 @@ jobs:
 
     - name: Terraform Init
       working-directory: ./
-      #run: terraform init -backend-config=backend/${{ inputs.configuration_name }}.tfvars
-      run: ls
+      run: terraform init -backend-config=backend/${{ inputs.configuration_name }}.tfvars
+
     - name: Terraform Format
       working-directory: ./
       run: terraform fmt -check
