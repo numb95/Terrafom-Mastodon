@@ -1,12 +1,18 @@
-name: Terraform CI
+name: Terraform
 
 on:
-  push:
-    branches:
-      - '**'
-  pull_request:
-    branches:
-      - '**'
+  workflow_call:
+    inputs:
+      terraform_version:
+        description: "Terraform version to be test"
+        required: false
+        type: string
+        default: '1.8.3'
+      configuration_name:
+        description: "Name of the configuration/environment/application"
+        required: true
+        type: string
+
 
 jobs:
   terraform:
@@ -24,7 +30,7 @@ jobs:
 
     - name: Terraform Init
       working-directory: ./
-      run: terraform init
+      run: terraform init -backend-config=backend/${{ inputs.configuration_name }}.tfvars
 
     - name: Terraform Format
       working-directory: ./
