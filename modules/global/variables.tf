@@ -8,3 +8,7 @@ variable "terraform_state_lock_table_name" {
   description = "Name of the terraform state lock. Default is terraform_state_lock_table_mastodon "
   default = "terraform_state_lock_table_mastodon"
 }
+variable "region" {
+  type = string
+  description = "Which region is going to be used."
+}

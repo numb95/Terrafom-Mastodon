@@ -12,5 +12,6 @@ jobs:
   global:
     uses: ./.github/workflows/terraform.yml
     with:
+      backend_config: 'backend/global.tfvars'  # Customize as needed
       terraform_version: '1.8.3'  # Customize as needed
       configuration_name: 'global'
