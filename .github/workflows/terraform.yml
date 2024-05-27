@@ -12,6 +12,11 @@ on:
         description: "Name of the configuration/environment/application"
         required: true
         type: string
+      backend_config:
+        description: "Which backend should be evaluated"
+        required: true
+        type: string
+
 
 jobs:
   terraform:
