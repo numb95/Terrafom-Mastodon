@@ -7,3 +7,4 @@ resource "aws_iam_policy" "cicd_policy" {
     region = var.region
   })
 }
+  
