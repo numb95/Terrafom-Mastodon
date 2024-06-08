@@ -6,4 +6,12 @@ resource "aws_dynamodb_table" "terraform_state_lock_table" {
       name = "LockID"
       type = "S"
     }
+    lifecycle {
+      prevent_destroy = true
+    }
+    tags = {
+      Name        = "${var.terraform_state_bucket_name}"
+      Service     = "terraform"
+      Environment = "global"
+    }
 }

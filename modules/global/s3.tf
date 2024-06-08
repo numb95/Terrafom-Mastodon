@@ -4,6 +4,11 @@ resource "aws_s3_bucket" "terraform_state_bucket" {
     lifecycle {
       prevent_destroy = true
     }
+    tags = {
+      Name        = "${var.terraform_state_bucket_name}"
+      Service     = "terraform"
+      Environment = "global"
+    }
 
 }
 
@@ -30,4 +35,25 @@ resource "aws_s3_bucket_public_access_block" "terraform_state_bucket_block_publi
     block_public_policy = true
     ignore_public_acls = true
     restrict_public_buckets = true
+}
+resource "aws_s3_bucket_lifecycle_configuration" "terraform_state_bucket_lifecycle" {
+  bucket = aws_s3_bucket.terraform_state_bucket.id
+
+  rule {
+    id     = "abort-incomplete-multipart-uploads"
+    status = "Enabled"
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
+
+  rule {
+    id     = "delete-noncurrent-object-versions"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+  }
 }

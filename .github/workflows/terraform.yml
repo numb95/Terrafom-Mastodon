@@ -1,0 +1,41 @@
+name: Terraform
+
+on:
+  workflow_call:
+    inputs:
+      terraform_version:
+        description: "Terraform version to be tested"
+        required: false
+        type: string
+        default: '1.8.3'
+      configuration_name:
+        description: "Name of the configuration/environment/application"
+        required: true
+        type: string
+
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ inputs.terraform_version }}
+
+    - name: Terraform Init
+      working-directory: ./
+      run: terraform init -backend=false
+
+    - name: Terraform Format
+      working-directory: ./
+      run: terraform fmt -check
+
+    - name: Terraform Validate
+      working-directory: ./
+      run: terraform validate
